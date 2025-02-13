@@ -1,22 +1,33 @@
 // server.js
 const express = require('express');
 const dotenv = require('dotenv');
+const cors = require('cors');
+const { connectdb } = require('./config/db');
 
-// Initialize dotenv for environment variables
+const PORT = process.env.PORT || 5000; 
+
+// Routes
+
+
+// Load env variables
+
 dotenv.config();
 
-const app = express();
-const PORT = process.env.PORT || 5000;
 
-// Middleware to parse incoming requests as JSON
+// Connect to database
+
+connectdb();
+
+// Initialize express
+const app = express();
+
+// Middleware
+
+app.use(cors());
 app.use(express.json());
 
-// Example route for testing
-app.get('/', (req, res) => {
-  res.send('Hello, World! Welcome to the Finance Tracker backend.');
-});
+// start server
 
-// Start the server
-app.listen(PORT, () => {
-  console.log(`Server is running on http://localhost:${PORT}`);
+app.listen(PORT, () => {  
+    console.log(`Server is running on port ${PORT}`);
 });
